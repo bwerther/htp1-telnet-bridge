@@ -8,6 +8,8 @@ USER node
 
 RUN npm i
 
+RUN npm install -g nodemon
+
 COPY . .
 
 FROM base as production
