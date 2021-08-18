@@ -9,15 +9,11 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "build": "run-p build:*",
-    "build:main": "tsc -p tsconfig.json",
-    "build:module": "tsc -p tsconfig.module.json",
-    "fix": "run-s fix:*",
-    "fix:prettier": "prettier \"src/**/*.ts\" --write",
-    "fix:lint": "eslint src --ext .ts --fix",
-    "start": "ts-node ./src/index.ts",
-    "start:dev": "nodemon",
-    "watch": "tsc -p tsconfig.json -w"
+    "start": "NODE_PATH=./build node build/index.js",
+    "build": "tsc -p .",
+    "dev": "nodemon --inspect=0.0.0.0 --htp1Address=192.168.1.160 --telnetPort=4000",
+    "docker-dev": "nodemon --inspect=0.0.0.0",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
     "node": ">=16"
@@ -26,6 +22,9 @@
     "@types/node": "^16.4.14",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
+    "@types/jsonpath": "^0.2.0",
+    "@types/minimist": "^1.2.2",
+    "@types/ws": "^7.4.7",
     "eslint": "^7.8.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
@@ -46,36 +45,10 @@
     "LICENSE",
     "README.md"
   ],
-  "ava": {
-    "failFast": true,
-    "timeout": "60s",
-    "typescript": {
-      "rewritePaths": {
-        "src/": "build/main/"
-      }
-    },
-    "files": [
-      "!build/module/**"
-    ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
-  },
   "prettier": {
     "singleQuote": true
   },
-  "nyc": {
-    "extends": "@istanbuljs/nyc-config-typescript",
-    "exclude": [
-      "**/*.spec.js"
-    ]
-  },
   "dependencies": {
-    "@types/jsonpath": "^0.2.0",
-    "@types/minimist": "^1.2.2",
-    "@types/ws": "^7.4.7",
     "fast-json-patch": "^3.0.0-1",
     "jsonpath": "^1.1.1",
     "minimist": "^1.2.5",

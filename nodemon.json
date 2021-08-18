@@ -2,5 +2,5 @@
   "watch": ["src"],
   "ext": ".ts,.js",
   "ignore": [],
-  "exec": "ts-node ./src/index.ts --htp1Address=192.168.1.160 --telnetPort=3000"
+  "exec": "ts-node ./src/index.ts"
 }

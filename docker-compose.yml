@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  htp1-telnet-bridge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./src:/home/node/app/src
+      - ./nodemon.json:/home/node/app/nodemon.json
+    container_name: htp1-telnet-bridge
+    expose:
+      - '4000'
+    ports:
+      - '4000:4000'
+    command: npm run docker-dev -- --htp1Address=192.168.1.160 --telnetPort=4000
