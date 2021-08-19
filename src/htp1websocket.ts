@@ -1,6 +1,7 @@
 import WebSocket from 'ws';
 import { applyPatch } from 'fast-json-patch';
 import { getMso, setMso } from './mso';
+import chalk from 'chalk';
 
 // Holds the current websocket
 let ws: WebSocket;
@@ -10,6 +11,13 @@ export function connectToHtp1(address: string) {
   ws = new WebSocket(`ws://${address}/ws/controller`);
 
   ws.on('open', function open() {
+    console.log(chalk.blue.bold('----'));
+    console.log(
+      chalk.blue.bold(
+        `[${new Date().toUTCString()}] Connected to HTP-1 at address ${address}`
+      )
+    );
+    console.log(chalk.blue.bold('----'));
     // Request the current MSO record for the device
     ws.send('getmso');
   });
@@ -40,14 +48,17 @@ export function connectToHtp1(address: string) {
           break;
       }
     } catch (err) {
-      console.log(err);
+      console.log(chalk.red.bold(`[${new Date().toUTCString()}] ${err}`));
     }
   });
 
   ws.onclose = function (e) {
     console.log(
-      'Socket is closed. Reconnect will be attempted in 1 second.',
-      e.reason
+      chalk.yellow.bold(
+        `[${new Date().toUTCString()}] Socket is closed. Reconnect will be attempted in 1 second. ${
+          e.reason
+        }`
+      )
     );
     setTimeout(function () {
       connectToHtp1(address);
@@ -55,7 +66,13 @@ export function connectToHtp1(address: string) {
   };
 
   ws.onerror = function (err) {
-    console.error('Socket encountered error: ', err.message, 'Closing socket');
+    console.log(
+      chalk.red.bold(
+        `[${new Date().toUTCString()}] Socket encountered error: ${
+          err.message
+        } Closing socket`
+      )
+    );
     ws.close();
   };
 }

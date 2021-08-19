@@ -1,7 +1,0 @@
-version: '3.7'
-
-services:
-  htp1-telnet-bridge:
-    build:
-      target: production
-    command: node build/index.js

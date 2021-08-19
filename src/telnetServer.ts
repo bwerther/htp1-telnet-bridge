@@ -1,6 +1,7 @@
 import { createServer, Socket } from 'net';
 import { sendWatchedFields } from './mso';
 import { processCommand } from './commands';
+import chalk from 'chalk';
 
 const clients: Record<number, Socket> = {};
 var lastId = -1;
@@ -17,10 +18,18 @@ function socketHandler(socket: Socket) {
 
   // The socket closed
   socket.on('close', function () {
+    console.log(
+      chalk.green.bold(
+        `[${new Date().toUTCString()}] Disconnected client #${myId}`
+      )
+    );
     delete clients[myId];
   });
 
   // Client is added -- now send it all of the current watch fields
+  console.log(
+    chalk.green.bold(`[${new Date().toUTCString()}] Connected client #${myId}`)
+  );
   sendWatchedFields(myId);
 }
 
@@ -30,7 +39,9 @@ export function sendField(clientId: number, name: string, val: string) {
 
   if (!socket)
     console.log(
-      `Failed to sendMessage to clientId ${clientId}: invalid socket`
+      chalk.red.bold(
+        `[${new Date().toUTCString()}] Failed to sendMessage to clientId ${clientId}: invalid socket`
+      )
     );
   else {
     socket.write(`${name} ${val}\n`);
@@ -50,7 +61,11 @@ export function sendError(clientId: number, error: Error) {
   const socket = clients[clientId];
 
   if (!socket)
-    console.log(`Failed to sendError to clientId ${clientId}: invalid socket`);
+    console.log(
+      chalk.red.bold(
+        `[${new Date().toUTCString()}] Failed to sendError to clientId ${clientId}: invalid socket`
+      )
+    );
   else {
     socket.write(`Error: ${error.message}\n`);
   }

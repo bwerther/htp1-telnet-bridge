@@ -1,4 +1,4 @@
-FROM node:16 as base
+FROM node:16-alpine as base
 
 WORKDIR /home/node/app
 
@@ -9,9 +9,3 @@ RUN npm i
 RUN npm install -g nodemon
 
 COPY . .
-
-FROM base as production
-
-ENV NODE_PATH=./build
-
-RUN npm run build

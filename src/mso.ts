@@ -79,7 +79,7 @@ export const setMso = (newMso: any) => {
     if (newVal !== field.val) {
       field.val = newVal;
       broadcastField(name, field.val);
-      console.log(`${name} ${field.val}`);
+      console.log(`[${new Date().toUTCString()}] ${name} ${field.val}`);
     }
   });
 };

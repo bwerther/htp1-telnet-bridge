@@ -1,4 +1,4 @@
-import { sendToHtp1 } from './websocket';
+import { sendToHtp1 } from './htp1websocket';
 import { sendError } from './telnetServer';
 import { getMso, sendWatchedFields } from './mso';
 
@@ -67,7 +67,7 @@ export const processCommand = (clientId: number, body: string): void => {
             setVolume(clientId, newVolume);
           }
         } else {
-          console.log('Invalid MSO state - ignoring relative volume command');
+          // console.log('Invalid MSO state - ignoring relative volume command');
         }
       }
       break;
@@ -221,7 +221,7 @@ export function setInput(clientId: number, input: string) {
   const inputs = mso?.inputs;
 
   if (!inputs) {
-    console.log('Invalid MSO state - ignoring set input');
+    // console.log('Invalid MSO state - ignoring set input');
   } else {
     if (inputs[input]) {
       sendToHtp1(
@@ -239,7 +239,7 @@ export function setUpmix(clientId: number, upmix: string) {
   const upmixList = mso?.upmix;
 
   if (!upmixList) {
-    console.log('Invalid MSO state - ignoring set surround mode');
+    // console.log('Invalid MSO state - ignoring set surround mode');
   } else {
     if (upmixList[upmix]) {
       sendToHtp1(

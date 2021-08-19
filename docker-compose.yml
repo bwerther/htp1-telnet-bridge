@@ -1,7 +1,7 @@
-version: '3.7'
+version: '3.9'
 
 services:
-  htp1-telnet-bridge:
+  htp1-recroom:
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,9 +9,23 @@ services:
     volumes:
       - ./src:/home/node/app/src
       - ./nodemon.json:/home/node/app/nodemon.json
-    container_name: htp1-telnet-bridge
+    container_name: htp1-recroom
     expose:
       - '4000'
     ports:
       - '4000:4000'
     command: npm run docker-dev -- --htp1Address=192.168.1.160 --telnetPort=4000
+  htp1-familyroom:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./src:/home/node/app/src
+      - ./nodemon.json:/home/node/app/nodemon.json
+    container_name: htp1-familyroom
+    expose:
+      - '4001'
+    ports:
+      - '4001:4001'
+    command: npm run docker-dev -- --htp1Address=192.168.1.160 --telnetPort=4001
